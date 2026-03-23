@@ -6,17 +6,11 @@
  * This bot can move, jump, ride vehicles, attack nearby entities and much more.
  */
 const mineflayer = require('mineflayer')
-
-if (process.argv.length < 4 || process.argv.length > 6) {
-  console.log('Usage : node jumper.js <host> <port> [<name>] [<password>]')
-  process.exit(1)
-}
-
 const bot = mineflayer.createBot({
-  host: process.argv[2],
-  port: parseInt(process.argv[3]),
-  username: process.argv[4] ? process.argv[4] : 'jumper',
-  password: process.argv[5]
+  host: process.env.HOST,
+  port: parseInt(process.env.PORT) || 25565,
+  username: process.env.USERNAME || 'jumper',
+  password: process.env.PASSWORD
 })
 
 let target = null
@@ -98,14 +92,28 @@ bot.on('chat', (username, message) => {
 })
 
 bot.once('spawn', () => {
-  // keep your eyes on the target, so creepy!
-  setInterval(watchTarget, 50)
+  console.log('Bot joined');
+
+  // Auto anti-AFK jumping
+  setInterval(() => {
+    bot.setControlState('jump', true);
+    setTimeout(() => bot.setControlState('jump', false), 500);
+  }, 5000);
+
+  // keep watching target (your original logic)
+  setInterval(watchTarget, 50);
 
   function watchTarget () {
     if (!target) return
     bot.lookAt(target.position.offset(0, target.height, 0))
   }
-})
+
+  // Optional: auto stop after 6 hours
+  setTimeout(() => {
+    bot.quit();
+    process.exit(0);
+  }, 6 * 60 * 60 * 1000);
+});
 
 bot.on('mount', () => {
   bot.chat(`mounted ${bot.vehicle.displayName}`)
