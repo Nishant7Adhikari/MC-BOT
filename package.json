@@ -1,11 +1,28 @@
 {
-  "name": "mc-bot",
+  "name": "minecraft-bot-dashboard",
   "version": "1.0.0",
-  "main": "bot.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node bot.js"
+    "dev": "tsx watch server/index.ts",
+    "start": "node --enable-source-maps dist/server/index.js",
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "mineflayer": "^4.0.0"
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "minecraft-data": "^3.85.1",
+    "mineflayer": "^4.20.1",
+    "mineflayer-pathfinder": "^2.4.5",
+    "prismarine-viewer": "^1.33.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.14",
+    "@types/ws": "^8.5.14",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
   }
 }

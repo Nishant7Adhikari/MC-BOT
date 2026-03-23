@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MinecraftBot Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">⚒</div>
+      <div>
+        <h1>MinecraftBot</h1>
+        <p id="serverLabel">nishantadhikari.aternos.me:17027</p>
+      </div>
+      <span id="connectionDot" class="dot"></span>
+      <span id="connectionText">Offline</span>
+    </div>
+    <div class="header-actions">
+      <button id="configBtn" class="ghost" title="Config">⚙</button>
+      <button id="connectBtn" class="success">Connect</button>
+      <button id="disconnectBtn" class="danger">Disconnect</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <aside class="panel status-panel">
+      <h2>Status</h2>
+      <section class="card"><p>Task</p><strong id="task">Idle</strong></section>
+      <section class="card eye-card">
+        <p>Eye Target</p>
+        <div class="eye-row">
+          <span class="eye-icon" aria-hidden="true"></span>
+          <strong id="watchTarget">Nobody</strong>
+        </div>
+      </section>
+      <section class="card"><p>Health</p><strong id="health">0/20</strong><div class="bar"><span id="healthBar"></span></div></section>
+      <section class="card"><p>Hunger</p><strong id="food">0/20</strong><div class="bar"><span id="foodBar"></span></div></section>
+      <section class="card"><p>Position</p><strong id="position">-</strong></section>
+
+      <h3>Players</h3>
+      <div id="players" class="list empty">No players nearby</div>
+
+      <h3>Inventory</h3>
+      <div id="inventory" class="list empty">Empty</div>
+    </aside>
+
+    <section class="panel console-panel">
+      <div class="panel-head">
+        <h2>Console</h2>
+        <button id="clearLogsBtn" class="ghost tiny">Clear</button>
+      </div>
+      <section id="previewWrap" class="preview-wrap">
+        <div class="preview-head">
+          <h3>Bot Eye</h3>
+          <span id="previewState" class="preview-state">Offline</span>
+        </div>
+        <iframe id="previewFrame" title="Live bot preview" loading="lazy"></iframe>
+      </section>
+      <div id="logs" class="logs">No logs yet - connect the bot to get started.</div>
+      <form id="chatForm" class="chat">
+        <input id="chatInput" placeholder="Send a chat message in-game..." />
+        <button class="success" type="submit">Send</button>
+      </form>
+    </section>
+
+    <aside class="panel controls-panel">
+      <h2>Controls</h2>
+      <p class="label">Movement</p>
+      <div class="dpad">
+        <button data-cmd="forward">↑</button>
+        <button data-cmd="left">←</button>
+        <button data-cmd="stop" class="stop">■</button>
+        <button data-cmd="right">→</button>
+        <button data-cmd="sprint">⚡</button>
+        <button data-cmd="back">↓</button>
+        <button data-cmd="jump">^</button>
+      </div>
+
+      <p class="label">Actions</p>
+      <div class="btn-grid">
+        <button data-cmd="guard" id="guardBtn">Guard</button>
+        <button data-cmd="attack">Attack</button>
+        <button data-cmd="status">Status</button>
+        <button data-cmd="mount">Mount</button>
+      </div>
+
+      <label>Go to player</label>
+      <div class="input-row">
+        <input id="gotoInput" placeholder="PlayerName" />
+        <button id="gotoBtn" class="success">↗</button>
+      </div>
+
+      <label>Mine block</label>
+      <div class="input-row">
+        <input id="mineInput" placeholder="diamond_ore" />
+        <button id="mineBtn" class="success">⛏</button>
+      </div>
+
+      <label>Drop item</label>
+      <div class="input-row">
+        <input id="dropInput" placeholder="item_name or all" />
+        <button id="dropBtn" class="danger">🗑</button>
+      </div>
+
+      <div class="commands">
+        <h3>In-game commands</h3>
+        <p>!come</p>
+        <p>!stop</p>
+        <p>!forward / !back / !left / !right</p>
+        <p>!guard !mine !drop</p>
+      </div>
+    </aside>
+  </main>
+
+  <dialog id="configModal">
+    <form id="configForm" method="dialog" class="modal-form">
+      <h3>Bot Config</h3>
+      <label>Username <input id="cfgUsername" required /></label>
+      <label>Host <input id="cfgHost" required /></label>
+      <label>Port <input id="cfgPort" type="number" required /></label>
+      <label>Auth
+        <select id="cfgAuth">
+          <option value="offline">offline</option>
+          <option value="microsoft">microsoft</option>
+        </select>
+      </label>
+      <p class="hint">Version is locked to 1.21.11 in backend.</p>
+      <div class="modal-actions">
+        <button class="ghost" type="button" id="closeConfig">Cancel</button>
+        <button class="success" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
